@@ -64,7 +64,7 @@ export default async function handler(req, res) {
 
   const genAI = new GoogleGenerativeAI(apiKey)
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
+    model: 'gemini-2.5-flash',
     systemInstruction: `당신은 요양병원 임상 보조 AI입니다. 간호사/요양보호사가 입력한 환자 정보, 증상, 활력징후를 분석하여 위험도를 분류하고 SBAR 보고문을 생성합니다.\n\n${HOSPITAL_GUIDELINES}\n\n반드시 JSON 스키마에 맞게 응답하세요. 한국어로 작성하세요.`,
     generationConfig: {
       responseMimeType: 'application/json',
