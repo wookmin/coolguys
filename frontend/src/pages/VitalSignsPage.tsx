@@ -1,12 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { useAnalysisStore } from '../store/analysisStore'
+import { useAuthStore } from '../store/authStore'
+import { useHistoryStore } from '../store/historyStore'
 import type { VitalSigns } from '../types'
 import axios from 'axios'
 
 export default function VitalSignsPage() {
   const navigate = useNavigate()
   const { selectedPatient, selectedSymptoms, vitalSigns, setVitalSigns, setResult, setLoading } = useAnalysisStore()
+  const user = useAuthStore((s) => s.user)
+  const addRecord = useHistoryStore((s) => s.addRecord)
 
   if (!selectedPatient) {
     navigate('/patients')
@@ -29,6 +33,19 @@ export default function VitalSignsPage() {
         vitalSigns,
       })
       setResult(res.data)
+      addRecord({
+        id: `h${Date.now()}`,
+        patientId: selectedPatient.id,
+        patientName: selectedPatient.name,
+        ward: selectedPatient.ward,
+        room: selectedPatient.room,
+        reportedBy: user?.name ?? '미상',
+        reportedAt: new Date().toISOString(),
+        symptoms: selectedSymptoms,
+        vitalSigns,
+        riskLevel: res.data.riskLevel,
+        sbar: res.data.sbar,
+      })
     } catch {
       setResult({
         riskLevel: 'caution',

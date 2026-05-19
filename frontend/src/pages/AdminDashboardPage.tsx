@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import RiskBadge from '../components/RiskBadge'
-import { historyRecords } from '../data/history'
+import { useHistoryStore } from '../store/historyStore'
 import type { RiskLevel } from '../types'
 import {
   PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
@@ -21,6 +21,8 @@ const RISK_LABELS: Record<RiskLevel, string> = {
 }
 
 export default function AdminDashboardPage() {
+  const historyRecords = useHistoryStore((s) => s.records)
+
   const riskCounts = historyRecords.reduce(
     (acc, r) => { acc[r.riskLevel] = (acc[r.riskLevel] || 0) + 1; return acc },
     {} as Record<RiskLevel, number>

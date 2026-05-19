@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import RiskBadge from '../components/RiskBadge'
-import { historyRecords } from '../data/history'
+import { useHistoryStore } from '../store/historyStore'
 import type { HistoryRecord, RiskLevel } from '../types'
 
 export default function HistoryPage() {
   const navigate = useNavigate()
+  const historyRecords = useHistoryStore((s) => s.records)
   const [selectedRecord, setSelectedRecord] = useState<HistoryRecord | null>(null)
   const [filterRisk, setFilterRisk] = useState<RiskLevel | 'all'>('all')
 
