@@ -2,11 +2,10 @@
   "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "npm --prefix frontend install",
-  "redirects": [
+  "rewrites": [
     {
       "source": "/((?!api/).*)",
-      "destination": "/",
-      "permanent": false
+      "destination": "/index.html"
     }
   ]
 }
