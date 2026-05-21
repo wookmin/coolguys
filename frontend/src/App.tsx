@@ -8,6 +8,7 @@ import AnalysisResultPage from './pages/AnalysisResultPage'
 import HistoryPage from './pages/HistoryPage'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminGuidelinesPage from './pages/AdminGuidelinesPage'
+import AdminHistoryReportPage from './pages/AdminHistoryReportPage'
 
 function ProtectedRoute({ children, requiredRole }: { children: React.ReactNode; requiredRole?: 'nurse' | 'admin' }) {
   const user = useAuthStore((s) => s.user)
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/result" element={<ProtectedRoute requiredRole="nurse"><AnalysisResultPage /></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute requiredRole="nurse"><HistoryPage /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboardPage /></ProtectedRoute>} />
+        <Route path="/admin/history/:recordId" element={<ProtectedRoute requiredRole="admin"><AdminHistoryReportPage /></ProtectedRoute>} />
         <Route path="/admin/guidelines" element={<ProtectedRoute requiredRole="admin"><AdminGuidelinesPage /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import RiskBadge from '../components/RiskBadge'
 import { useHistoryStore } from '../store/historyStore'
@@ -21,6 +22,7 @@ const RISK_LABELS: Record<RiskLevel, string> = {
 }
 
 export default function AdminDashboardPage() {
+  const navigate = useNavigate()
   const historyRecords = useHistoryStore((s) => s.records)
 
   const riskCounts = historyRecords.reduce(
@@ -112,6 +114,7 @@ export default function AdminDashboardPage() {
                 <th className="text-left px-4 py-3 text-slate-500 font-medium text-xs">위험도</th>
                 <th className="text-left px-4 py-3 text-slate-500 font-medium text-xs">주요 증상</th>
                 <th className="text-left px-4 py-3 text-slate-500 font-medium text-xs">보고자</th>
+                <th className="text-left px-4 py-3 text-slate-500 font-medium text-xs">액션</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -123,6 +126,14 @@ export default function AdminDashboardPage() {
                   <td className="px-4 py-3"><RiskBadge level={r.riskLevel} /></td>
                   <td className="px-4 py-3 text-slate-600 max-w-xs truncate">{r.symptoms.join(', ')}</td>
                   <td className="px-4 py-3 text-slate-500">{r.reportedBy}</td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => navigate(`/admin/history/${r.id}`)}
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap"
+                    >
+                      상세보기
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
